@@ -1,0 +1,9 @@
+.git/
+Dockerfile
+coverage/
+solr/*
+!solr/conf.old
+vendor/bundle/
+log/
+tmp/
+test/

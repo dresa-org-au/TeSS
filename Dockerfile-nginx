@@ -1,0 +1,30 @@
+# use ubuntu base image
+FROM ubuntu:20.04
+
+# install dependencies
+RUN apt-get update && \
+    apt-get install nginx-light openssl -y && \
+    apt-get clean && \
+    rm -rf -rf /var/lib/apt/lists/*
+
+# create self-signed certificates
+RUN mkdir -p /usr/local/ssl/certs && \
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -subj "/CN=DReSA/O=Digital Research Skills Australasia/C=AU" \
+    -keyout /usr/local/ssl/certs/nginx-self-signed.key \
+    -out /usr/local/ssl/certs/nginx-self-signed.crt && \
+    openssl dhparam -out /etc/nginx/dhparam.pem 4096
+
+# configure nginx
+COPY ./docker/nginx-ssl-signed.conf /etc/nginx/sites-available/default
+COPY ./docker/nginx-signed-snippet.conf /etc/nginx/snippets/nginx.conf
+COPY ./docker/nginx-params-snippet.conf /etc/nginx/snippets/ssl-params.conf
+
+VOLUME /var/log/nginx
+VOLUME /home/ubuntu/TeSS
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]
+
+# --- end of file --- #

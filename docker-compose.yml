@@ -1,0 +1,91 @@
+version: '3.3'
+
+services:
+  app:
+    container_name: ${PREFIX}-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: walroz/dresa:1.4.3
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      - db
+      - solr
+      - redis
+    #ports:
+    #  - '3000:3000'
+    volumes:
+      - .:/code
+      - gem_cache:/usr/local/bundle/gems
+      - node_modules:/app/
+    environment:
+      RAILS_ENV: development
+      RAILS_LOG_TO_STDOUT: 'true'
+  db:
+    container_name: ${PREFIX}-db
+    logging:
+      driver: none
+    image: postgres:14.2
+    restart: always
+    env_file: .env
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  solr:
+    container_name: ${PREFIX}-solr
+    image: solr:8
+    restart: always
+    volumes:
+      - solr_data:/var/solr
+      - ./solr:/opt/solr/server/solr/configsets/development
+    command:
+      - solr-precreate
+      - tess
+      - /opt/solr/server/solr/configsets/development
+    ports:
+      - '8984:8983'
+  redis:
+    container_name: ${PREFIX}-redis
+    image: redis:6
+    restart: always
+    volumes:
+      - redis_data:/data
+  nginx:
+    container_name: ${PREFIX}-nginx
+    image: walroz/nginx:1.4.3
+    restart: always
+    depends_on:
+      - app
+    volumes:
+      - .:/home/ubuntu/TeSS
+      - nginx_data:/var/log/nginx
+    ports:
+      - '443:443'
+      - '80:80'
+#  sidekiq:
+#    container_name: ${PREFIX}-sidekiq
+#    image: walroz/dresa:latest
+#    depends_on:
+#      - app
+#      - db
+#      - redis
+#    volumes:
+#      - .:/code
+#      - gem_cache:/usr/local/bundle/gems
+#      - node_modules:/app/node_modules
+#    env_file: .env
+#    environment:
+#      RAILS_ENV: development
+#    entrypoint: ./docker/sidekiq_entrypoint.
+volumes:
+  gem_cache:
+  node_modules:
+  db_data:
+  solr_data:
+  redis_data:
+  nginx_data:

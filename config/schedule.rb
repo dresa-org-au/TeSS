@@ -71,10 +71,10 @@ end
 # run log rotation
 if !schedules['logrotate'].nil?
   every :"#{schedules['logrotate']['every']}", at: "#{schedules['logrotate']['at']}" do
-    command "/usr/sbin/logrotate -f #{path}/config/logrotate.conf -s #{log_folder}/logrotate.log"
+    command "/usr/sbin/logrotate -f #{path}/config/logrotate.conf.old -s #{log_folder}/logrotate.log"
   end
 else
   every :day, at: '11pm' do
-    command "/usr/sbin/logrotate -f #{path}/config/logrotate.conf -s #{log_folder}/logrotate.log"
+    command "/usr/sbin/logrotate -f #{path}/config/logrotate.conf.old -s #{log_folder}/logrotate.log"
   end
 end
