@@ -3,6 +3,7 @@ set -e
 
 # Remove a potentially pre-existing server.pid for Rails.
 rm -f /code/tmp/pids/server.pid
+rm -f /code/shared/pids/unicorn.pid
 
 # add jobs to crontab
 bundle exec whenever --update-crontab --set db_user="tess"

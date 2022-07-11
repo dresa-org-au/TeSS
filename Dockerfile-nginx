@@ -21,7 +21,7 @@ COPY ./docker/nginx-signed-snippet.conf /etc/nginx/snippets/nginx.conf
 COPY ./docker/nginx-params-snippet.conf /etc/nginx/snippets/ssl-params.conf
 
 VOLUME /var/log/nginx
-VOLUME /home/ubuntu/TeSS
+VOLUME /code/shared
 
 EXPOSE 80 443
 

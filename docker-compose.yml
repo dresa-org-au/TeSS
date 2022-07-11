@@ -19,8 +19,9 @@ services:
       - .:/code
       - gem_cache:/usr/local/bundle/gems
       - node_modules:/app/
+      - shared_data:/code/shared
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: 'true'
   db:
     container_name: ${PREFIX}-db
@@ -64,6 +65,7 @@ services:
     volumes:
       - .:/home/ubuntu/TeSS
       - nginx_data:/var/log/nginx
+      - shared_data:/code/shared
     ports:
       - '443:443'
       - '80:80'
@@ -89,3 +91,4 @@ volumes:
   solr_data:
   redis_data:
   nginx_data:
+  shared_data:

@@ -3,7 +3,7 @@ FROM ruby:2.7.2
 
 # set work
 USER root
-WORKDIR /home/root/TeSS
+WORKDIR /code
 
 # install dependencies
 RUN apt-get update && \
@@ -29,8 +29,10 @@ RUN bundle exec rake assets:precompile
 # set-up shared directory and files
 ENV SHARED_DIR = "./shared"
 RUN bash -c 'mkdir -p $SHARED_DIR/{pids,sockets,log,backups}' && \
+    bash -c 'chmod 666 -R $SHARED_DIR' && \
     bash -c 'touch $SHARED_DIR/pids/unicorn.pid' && \
     bash -c 'touch $SHARED_DIR/log/cron.log'
+
 
 # set-up unicorn_tess service
 RUN cp ./docker/unicorn_tess /etc/init.d/unicorn_tess && \

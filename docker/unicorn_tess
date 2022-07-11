@@ -17,7 +17,7 @@ USAGE="Usage: $0 <start|stop|restart|upgrade|rotate|force-stop>"
 # app settings
 USER="root"
 APP_NAME="TeSS"
-APP_ROOT="/home/$USER/$APP_NAME"
+APP_ROOT="/code"
 ENV="production"
 
 # environment settings
