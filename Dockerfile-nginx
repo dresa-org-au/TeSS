@@ -1,11 +1,15 @@
 # use ubuntu base image
 FROM ubuntu:20.04
 
+WORKDIR /code
+VOLUME /code/shared
+VOLUME /var/log/nginx
+
 # install dependencies
 RUN apt-get update && \
     apt-get install nginx-light openssl -y && \
     apt-get clean && \
-    rm -rf -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*
 
 # create self-signed certificates
 RUN mkdir -p /usr/local/ssl/certs && \
@@ -15,15 +19,10 @@ RUN mkdir -p /usr/local/ssl/certs && \
     -out /usr/local/ssl/certs/nginx-self-signed.crt && \
     openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
-# configure nginx
-COPY ./docker/nginx-ssl-signed.conf /etc/nginx/sites-available/default
-COPY ./docker/nginx-signed-snippet.conf /etc/nginx/snippets/nginx.conf
-COPY ./docker/nginx-params-snippet.conf /etc/nginx/snippets/ssl-params.conf
-
-VOLUME /var/log/nginx
-VOLUME /code/shared
-
+# start nginx
 EXPOSE 80 443
+
+ENTRYPOINT ["docker/entrypoint_nginx.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
 

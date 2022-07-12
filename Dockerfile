@@ -4,6 +4,7 @@ FROM ruby:2.7.2
 # set work
 USER root
 WORKDIR /code
+VOLUME /code/shared
 
 # install dependencies
 RUN apt-get update && \
@@ -39,15 +40,10 @@ RUN cp ./docker/unicorn_tess /etc/init.d/unicorn_tess && \
     chmod +x /etc/init.d/unicorn_tess && \
     update-rc.d unicorn_tess  defaults
 
-# set-up
+# define the entypoint
 ENTRYPOINT ["docker/entrypoint.sh"]
 
 # run unicorn service
-#CMD service unicorn_tess start
-CMD bundle exec unicorn -c ./config/unicorn.rb -E production -D
-
-# run rails service
-#EXPOSE 3000
-#CMD bundle exec rails server -b 0.0.0.0
+CMD ["bundle", "exec", "unicorn", "-c ./config/unicorn.rb", "-E production", "-D"]
 
 # -- end of file #
