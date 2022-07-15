@@ -13,6 +13,6 @@ echo '\nContainers...'
 docker container list -a
 
 echo '\nCompositions...'
-docker-compose ps 
+docker-compose ps -a 
 
 #  --- end of file -- #

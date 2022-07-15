@@ -1,17 +1,17 @@
 # use ubuntu base image
 FROM ubuntu:20.04
 
-WORKDIR /code
-VOLUME /code/shared
+WORKDIR /workdir
+VOLUME ./shared
 VOLUME /var/log/nginx
 
 # install dependencies
 RUN apt-get update && \
-    apt-get install nginx-light openssl -y && \
+    apt-get install nginx-light openssl gettext-base -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# create self-signed certificates
+# create self-signed certificates and configure ssl parameters
 RUN mkdir -p /usr/local/ssl/certs && \
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/CN=DReSA/O=Digital Research Skills Australasia/C=AU" \
@@ -19,11 +19,14 @@ RUN mkdir -p /usr/local/ssl/certs && \
     -out /usr/local/ssl/certs/nginx-self-signed.crt && \
     openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
-# start nginx
+# copy conf and shell files
+COPY ./docker/nginx-params-snippet.conf /etc/nginx/snippets/ssl-params.conf
+COPY ./docker/*.conf ./
+COPY ./docker/entrypoint_nginx.sh ./
+
+# create entrypoint and start-up parameters
+ENTRYPOINT ["/workdir/entrypoint_nginx.sh"]
 EXPOSE 80 443
-
-ENTRYPOINT ["docker/entrypoint_nginx.sh"]
-
 CMD ["nginx", "-g", "daemon off;"]
 
 # --- end of file --- #
