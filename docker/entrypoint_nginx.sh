@@ -2,6 +2,7 @@
 set -e
 
 # configure nginx
+cp /workdir/nginx-params-snippet.conf /etc/nginx/snippets/ssl-params.conf
 envsubst '$SSL_CERT_FILE,$SSL_KEY_FILE' < /workdir/nginx-signed-snippet.conf > /etc/nginx/snippets/nginx.conf
 envsubst '$URL,$IP_ADDR' < /workdir/nginx-ssl-signed.conf > /etc/nginx/sites-available/default
 

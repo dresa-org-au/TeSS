@@ -13,13 +13,12 @@ services:
       - db
       - solr
       - redis
-    #ports:
-    #  - '3000:3000'
     volumes:
       - .:/code
       - gem_cache:/usr/local/bundle/gems
-      - node_modules:/app/
+      - node_modules:/app
       - shared_data:/code/shared
+      - public_data:/code/public
     environment:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: 'true'
@@ -59,36 +58,40 @@ services:
   nginx:
     container_name: ${PREFIX}-nginx
     image: walroz/nginx:1.4.3
+    env_file: .env
     restart: always
     depends_on:
       - app
     volumes:
-      - .:/home/ubuntu/TeSS
-      - nginx_data:/var/log/nginx
-      - shared_data:/code/shared
+      - ./docker:/workdir
+      - nginx_conf:/etc/nginx
+      - nginx_logs:/var/log/nginx
+      - shared_data:/shared
+      - public_data:/public
     ports:
       - '443:443'
       - '80:80'
-#  sidekiq:
-#    container_name: ${PREFIX}-sidekiq
-#    image: walroz/dresa:latest
-#    depends_on:
-#      - app
-#      - db
-#      - redis
-#    volumes:
-#      - .:/code
-#      - gem_cache:/usr/local/bundle/gems
-#      - node_modules:/app/node_modules
-#    env_file: .env
-#    environment:
-#      RAILS_ENV: development
-#    entrypoint: ./docker/sidekiq_entrypoint.
+  sidekiq:
+    container_name: ${PREFIX}-sidekiq
+    image: walroz/dresa:1.4.3
+    depends_on:
+      - app
+      - db
+      - redis
+    volumes:
+      - ./config/tess.yml:/code/config/tess.yml
+      - ./config/secrets.yml:/code/config/secrets.yml
+    env_file: .env
+    environment:
+      RAILS_ENV: production
+    entrypoint: ./docker/entrypoint_sidekiq.sh
 volumes:
   gem_cache:
   node_modules:
   db_data:
   solr_data:
   redis_data:
-  nginx_data:
+  nginx_conf:
+  nginx_logs:
   shared_data:
+  public_data:

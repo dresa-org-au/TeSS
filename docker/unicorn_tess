@@ -38,23 +38,33 @@ oldsig () {
 }
 
 case $1 in
+  test)
+    echo "Testing $APP_NAME..."
+    echo "PATH=$PATH"
+    echo "gem environment="; gem environment
+    TEMP_CMD="cd $APP_ROOT && gem environment"
+    echo "su $USER -p -c \"$TEMP_CMD\" "
+    su $USER -p -c "$TEMP_CMD"
+    echo "Staring $APP_NAME..."
+    su $USER -p -c "$CMD"
+    ;;
   start)
     sig 0 && echo >&2 "Already running" && exit 0
-    echo "Starting $APP_NAME"
+    echo "Starting $APP_NAME..."
     su - $USER -c "$CMD"
     ;;
   stop)
-    echo "Stopping $APP_NAME"
+    echo "Stopping $APP_NAME.."
     sig QUIT && exit 0
     echo >&2 "Not running"
     ;;
   force-stop)
-    echo "Force stopping $APP_NAME"
+    echo "Force stopping $APP_NAME.."
     sig TERM && exit 0
     echo >&2 "Not running"
     ;;
   restart|reload|upgrade)
-    sig USR2 && echo "reloaded $APP_NAME" && exit 0
+    sig USR2 && echo "Reloading $APP_NAME..." && exit 0
     echo >&2 "Couldn't reload, starting '$CMD' instead"
     $CMD
     ;;

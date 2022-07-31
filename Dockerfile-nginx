@@ -2,8 +2,8 @@
 FROM ubuntu:20.04
 
 WORKDIR /workdir
-VOLUME ./shared
-VOLUME /var/log/nginx
+VOLUME /shared
+VOLUME /public
 
 # install dependencies
 RUN apt-get update && \

@@ -28,7 +28,7 @@ COPY . .
 RUN bundle exec rake assets:precompile
 
 # set-up shared directory and files
-ENV SHARED_DIR = "./shared"
+ENV SHARED_DIR="./shared"
 RUN bash -c 'mkdir -p $SHARED_DIR/{pids,sockets,log,backups}' && \
     bash -c 'chmod 666 -R $SHARED_DIR' && \
     bash -c 'touch $SHARED_DIR/pids/unicorn.pid' && \
@@ -36,14 +36,15 @@ RUN bash -c 'mkdir -p $SHARED_DIR/{pids,sockets,log,backups}' && \
 
 
 # set-up unicorn_tess service
-RUN cp ./docker/unicorn_tess /etc/init.d/unicorn_tess && \
-    chmod +x /etc/init.d/unicorn_tess && \
-    update-rc.d unicorn_tess  defaults
+RUN bash -c 'cp ./docker/unicorn_tess /etc/init.d/unicorn_tess' && \
+    bash -c 'chmod +x /etc/init.d/unicorn_tess' && \
+    bash -c 'update-rc.d unicorn_tess defaults'
 
 # define the entypoint
 ENTRYPOINT ["docker/entrypoint.sh"]
 
-# run unicorn service
-CMD ["bundle", "exec", "unicorn", "-c ./config/unicorn.rb", "-E production", "-D"]
+# run rails server
+EXPOSE 3000
+CMD ["bundle","exec","rails","server","-b","0.0.0.0"]
 
 # -- end of file #
