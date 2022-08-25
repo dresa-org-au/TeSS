@@ -79,19 +79,22 @@ services:
       - db
       - redis
     volumes:
-      - ./config/tess.yml:/code/config/tess.yml
-      - ./config/secrets.yml:/code/config/secrets.yml
+      - .:/code
+      - gem_cache:/usr/local/bundle/gems
+      - node_modules:/app/node_modules
     env_file: .env
     environment:
       RAILS_ENV: production
-    entrypoint: ./docker/entrypoint_sidekiq.sh
+    command: ["bundle","exec","sidekiq"]
+
 volumes:
-  gem_cache:
-  node_modules:
   db_data:
   solr_data:
   redis_data:
-  nginx_conf:
-  nginx_logs:
+  gem_cache:
+  node_modules:
   shared_data:
   public_data:
+  nginx_conf:
+  nginx_logs:
+
