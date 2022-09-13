@@ -162,6 +162,9 @@ gem 'psych', '< 4'
 # rails html sanitizer security update
 gem 'rails-html-sanitizer', '~> 1.4.3'
 
+# fix net-protocol warnings by specifically importing net-http
+gem 'net-http'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-clipboard', '~> 1.5.12'
   gem 'rails-assets-devbridge-autocomplete', '~> 1.2.26'
