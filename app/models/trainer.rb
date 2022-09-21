@@ -27,6 +27,16 @@ class Trainer < Profile
       # other fields
       integer :user_id
       string :description
+      string :experience
+      string :expertise_academic, multiple: true
+      string :expertise_technical, multiple: true
+      string :fields, multiple: true
+      string :interest, multiple: true
+      string :activity, multiple: true
+      string :language, multiple: true do
+        Rails.logger.debug "language key[#{self.language}] label[]"
+        language_label_by_key(self.language) unless self.language.nil?
+      end
       string :full_name
       string :location
       time :updated_at
