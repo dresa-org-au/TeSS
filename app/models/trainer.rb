@@ -34,8 +34,7 @@ class Trainer < Profile
       string :interest, multiple: true
       string :activity, multiple: true
       string :language, multiple: true do
-        Rails.logger.debug "language key[#{self.language}] label[]"
-        language_label_by_key(self.language) unless self.language.nil?
+        languages_from_keys(self.language) unless self.language.nil?
       end
       string :full_name
       string :location
