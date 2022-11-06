@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: walroz/dresa:1.4.3
+    image: ${REPOSITORY}/dresa:${IMAGE_VERSION}
     restart: unless-stopped
     env_file: .env
     depends_on:
@@ -57,7 +57,7 @@ services:
       - redis_data:/data
   nginx:
     container_name: ${PREFIX}-nginx
-    image: walroz/nginx:1.4.3
+    image: ${REPOSITORY}/nginx:${IMAGE_VERSION}
     env_file: .env
     restart: always
     depends_on:
@@ -73,7 +73,7 @@ services:
       - '80:80'
   sidekiq:
     container_name: ${PREFIX}-sidekiq
-    image: walroz/dresa:1.4.3
+    image: ${REPOSITORY}/dresa:${IMAGE_VERSION}
     depends_on:
       - app
       - db

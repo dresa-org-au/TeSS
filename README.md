@@ -31,7 +31,11 @@ etc. are available elsewhere.
 These instructions have been tested on the following operating systems:
 - Ubuntu 20.04 LTS (focal)
 
-### System Dependencies
+### Docker Installation
+
+See the [Docker Deploy](./DOCKER.md) page for instructions to deploy TeSS in development mode using containers.
+
+### Manual Installation
 TeSS requires the following system packages to be installed:
 
 - RVM
@@ -87,13 +91,15 @@ Clone the source code using git:
 #### Ruby
 
 It is typically recommended to install Ruby with RVM. With RVM, you can specify the version of Ruby you want
-installed, plus a whole lot more (e.g. gemsets). Full installation instructions for RVM are [available online](http://rvm.io/rvm/install/).
+installed, plus a whole lot more (e.g. gemsets). Full installation instructions for RVM are 
+[available online](http://rvm.io/rvm/install/).
 
     rvm install `cat .ruby-version`
     rvm use --create `cat .ruby-version`@`cat .ruby-gemset`
 
 #### Bundler
-Bundler provides a consistent environment for Ruby projects by tracking and installing the exact gems and versions that are needed for your Ruby application.
+Bundler provides a consistent environment for Ruby projects by tracking and installing the exact gems and versions that 
+are needed for your Ruby application.
 
 To update the gem system and install the bundler, you can do:
 
@@ -109,7 +115,8 @@ Once you have Ruby, RVM and bundler installed, from the root folder of the app d
 
     bundle install
 
-This will install Rails, as well as any other gem that the TeSS app needs as specified in Gemfile (located in the root folder of the TeSS app).
+This will install Rails, as well as any other gem that the TeSS app needs as specified in Gemfile (located in the root 
+folder of the TeSS app).
 
 ### Configuring the TeSS application
 
@@ -194,7 +201,8 @@ Also, check the ```log/development.log``` file to see if there are any errors.
 
 #### Setup Administrators
 
-Once you have a local TeSS successfully running, you may want to setup administrative users. To do this register a new account in TeSS through the registration page. Then go to the applications Rails console: 
+Once you have a local TeSS successfully running, you may want to setup administrative users. 
+To do, this register a new account in TeSS through the registration page. Then go to the applications Rails console: 
 
     rails console [-e <environment>]
 
@@ -231,7 +239,8 @@ Set the environment variables in ```/etc/environment```, including:
 for an account with Google Cloud and creating the keys via the following pages. 
 
   - [Google Cloud](https://clound.google.com/) : Getting Started
-  - [Google Analytics Code](https://analytics.google.com) : Admin > Data Streams > Use the ```Measurement ID``` of the appropriate stream.
+  - [Google Analytics Code](https://analytics.google.com) : Admin > Data Streams > Use the ```Measurement ID``` of the 
+appropriate stream.
   - [Google Maps API key](https://console.cloud.google.com/google/maps-apis/credentials)
 
 Set-up the production database:
@@ -320,7 +329,7 @@ If there is an error, check the log file: ```/var/log/nginx/error.log```
 
 Create the self-signed certificate:
    
-    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out/etc/ssl/certs/nginx-selfsigned.crt
 
 Create a strong dhparam
 
