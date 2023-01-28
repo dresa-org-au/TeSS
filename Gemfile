@@ -109,7 +109,7 @@ gem 'icalendar', '~> 2.4.1'
 
 gem 'bootstrap-datepicker-rails', '~> 1.6.4.1'
 
-gem 'rack', '~> 2.2.3.1'
+gem 'rack', '~> 2.2.6.2'
 
 gem 'rack-cors', require: 'rack/cors'
 
@@ -162,6 +162,9 @@ gem 'psych', '< 4'
 # rails html sanitizer security update
 gem 'rails-html-sanitizer', '~> 1.4.4'
 gem 'loofah', '~> 2.19.1'
+
+# security update 5
+gem 'globalid', '~> 1.0.1'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-clipboard', '~> 1.5.12'

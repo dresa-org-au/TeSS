@@ -164,7 +164,7 @@ GEM
     friendly_id (5.2.5)
       activerecord (>= 4.0.0)
     geocoder (1.8.0)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     gravtastic (3.2.6)
     haml (5.0.4)
@@ -359,7 +359,7 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     racc (1.6.2)
-    rack (2.2.3.1)
+    rack (2.2.6.2)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-oauth2 (1.21.2)
@@ -674,6 +674,7 @@ DEPENDENCIES
   font-awesome-sass (~> 4.7.0)
   friendly_id (~> 5.2.4)
   geocoder
+  globalid (~> 1.0.1)
   gravtastic (~> 3.2.6)
   haml (~> 5.0.4)
   handlebars_assets
@@ -703,7 +704,7 @@ DEPENDENCIES
   psych (< 4)
   public_activity (~> 1.6.4)!
   pundit (~> 1.1.0)
-  rack (~> 2.2.3.1)
+  rack (~> 2.2.6.2)
   rack-cors
   rails (~> 5.2.8.1)
   rails-assets-clipboard (~> 1.5.12)!
