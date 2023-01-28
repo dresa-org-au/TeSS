@@ -10,6 +10,7 @@ Deployed: *TBA*
 
 - Fixes:
   - [Security Updates 4](https://github.com/nrmay/TeSS/issues/373)
+  - [Security Updates 5](https://github.com/nrmay/TeSS/issues/385)
 
 
 ## [Version 1.4.2](https://github.com/dresa-org-au/TeSS/releases/tag/v1.4.2)
