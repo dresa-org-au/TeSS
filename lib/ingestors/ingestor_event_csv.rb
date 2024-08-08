@@ -14,7 +14,7 @@ class IngestorEventCsv < IngestorEvent
       # parse csv as table
       web_contents = open(url).read
       table = CSV.parse web_contents, headers: true
-
+   
       # process each row
       table.each do |row|
         # copy values

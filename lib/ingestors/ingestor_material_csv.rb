@@ -25,6 +25,8 @@ class IngestorMaterialCsv < IngestorMaterial
         material.contact = get_column row, 'Contact'
         material.licence = get_column row, 'Licence'
         material.status = get_column row, 'Status'
+        material.status = material.status.downcase
+
 
         # copy optional values
         material.doi = get_column row, 'DOI'
