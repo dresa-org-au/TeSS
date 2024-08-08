@@ -36,6 +36,11 @@
 
         <h3>Trainer Details</h3>
         <hr>
+        
+        <p><i class="fa fa-exclamation-triangle"></i>&nbsp;<%= t 'profile.trainer.disclaimer' %></p>
+        
+        <%= f.input :public, label: 'Show in Registry of Trainers?',
+                    input_html: { title: t('profile.hints.public')}, wrapper_html: { class: 'user_public' } %>
 
         <%= f.input :description, label: 'Summary', input_html: { title: t('profile.hints.description') } %>
 
@@ -84,11 +89,6 @@
                           errors: @user.profile.errors[:social_media],
                           model_name: 'user[profile_attributes]',
                           title: t('profile.hints.social_media') %>
-
-        <p><i class="fa fa-exclamation-triangle"></i>&nbsp;<%= t 'profile.trainer.disclaimer' %></p>
-
-        <%= f.input :public, label: 'Show in Registry of Trainers?',
-                    input_html: { title: t('profile.hints.public') } %>
 
 
       <% end %>
