@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  get '/password/reset', to: 'password_resets#new'
+
   concern :collaboratable do
     resources :collaborations, only: [:create, :destroy, :index, :show]
   end
@@ -6,11 +9,14 @@ Rails.application.routes.draw do
   concern :activities do
     resources :activities, only: [:index]
   end
+  
+  get 'contact' => 'contact_form#new', as: 'contact'
+  resources :contact_form, only: %i[new create]
 
   get 'edam/terms' => 'edam#terms'
   get 'edam/topics' => 'edam#topics'
   get 'edam/operations' => 'edam#operations'
-
+   
   if TeSS::Config.feature['workflows'] == true
     resources :workflows
   end
@@ -20,6 +26,8 @@ Rails.application.routes.draw do
   get 'about/registering' => 'about#registering', as: 'registering_resources'
   get 'about/developers' => 'about#developers', as: 'developers'
   get 'about/us' => 'about#us', as: 'us'
+  get 'about/faqs' => 'about#faqs', as: 'faqs'
+
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 
@@ -37,16 +45,18 @@ Rails.application.routes.draw do
       :omniauth_callbacks => 'callbacks'
     }
   end
+
   #Redirect to users index page after devise user account update
   # as :user do
   #   get 'users', :to => 'users#index', :as => :user_root
-  # end
+  #end
 
   patch 'users/:id/change_token' => 'users#change_token', as: 'change_token'
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   root 'static#home'
+  #devise_for :users
 
   get 'static/home'
 
