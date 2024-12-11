@@ -14,10 +14,17 @@
           <% tabs = @results.keys.sort {|a,b| a <=> b } %>
           <ul class="nav nav-tabs">
             <% tabs.each_with_index do |tab, index| %>
-                <li class="<%= index == 0 ? 'active' : '' %>">
-                  <a data-toggle="tab" href="#<%= tab %>"><i class="<%= icon_class_for_model(tab) %>"></i> <%= tab.to_s.humanize.capitalize %>
-                    (<%= @results[tab].total %>)</a>
-                </li>
+                <% if tab.to_s.humanize.capitalize == "Packages" %>
+                  <li class="<%= index == 0 ? 'active' : '' %>">
+                    <a data-toggle="tab" href="#<%= tab %>"><i class="<%= icon_class_for_model(tab) %>"></i> <%= "My DReSA Links".capitalize %>
+                      (<%= @results[tab].total %>)</a>
+                  </li>
+                <% else %>
+                  <li class="<%= index == 0 ? 'active' : '' %>">
+                    <a data-toggle="tab" href="#<%= tab %>"><i class="<%= icon_class_for_model(tab) %>"></i> <%= tab.to_s.humanize.capitalize %>
+                      (<%= @results[tab].total %>)</a>
+                  </li>
+                <% end %>
             <% end %>
           </ul>
 
@@ -26,7 +33,11 @@
               <% @results.each do |model, results_for_model| %>
                   <div class="tab-pane fade in <%= 'active'.html_safe if model == tabs.first %>" id="<%= model %>">
                     <div class="search-results-count">
-                      <%= "Showing #{pluralize(results_for_model.results.count, "#{model.to_s.humanize.singularize.downcase}")}#{(results_for_model.total > 30) ? " out of #{results_for_model.total}" : ''}." %>
+                      <% if model.to_s.humanize.capitalize == "Packages" %>
+                        <%= "Showing #{pluralize(results_for_model.results.count, "#{"My DReSA Links".singularize.downcase}")}#{(results_for_model.total > 30) ? " out of #{results_for_model.total}" : ''}." %>
+                      <% else %>
+                        <%= "Showing #{pluralize(results_for_model.results.count, "#{model.to_s.humanize.singularize.downcase}")}#{(results_for_model.total > 30) ? " out of #{results_for_model.total}" : ''}." %>
+                      <% end %>
                       <%= link_to "View all results.", :controller => model, :q => params[:q] if (results_for_model.total > 30) %>
                     </div>
                     <% if results_for_model.results.count > 0 %>
