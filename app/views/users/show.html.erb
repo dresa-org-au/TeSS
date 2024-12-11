@@ -123,6 +123,14 @@
             <% end %>
           <% end %>
 
+          <% if !current_user.nil? and policy(@user).destroy? %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      user_path(@user),
+                      :method => 'delete',
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-danger' %>
+          <% end %>
+
           <!-- Admin User functions -->
           <% if current_user.try(:is_admin?) %>
             <% if @user.banned? %>
@@ -165,8 +173,8 @@
 
         <!-- Tab: Packages -->
         <% if TeSS::Config.feature['packages'] %>
-          <%= tab('Packages', icon_class_for_model('packages'), 'packages',
-                  disabled: { check: packages.none?, message: 'No registered packages' },
+          <%= tab('My DReSA Links', icon_class_for_model('packages'), "packages",
+                  disabled: { check: packages.none?, message: 'No registered my dresa links' },
                   count: @user.packages.count) %>
         <% end %>
 
@@ -227,7 +235,7 @@
           <div id="packages" class="tab-pane fade">
             <div class="row">
               <div class="search-results-count">
-                <%= (packages.count > 0 ? "Showing" : "Found") + " " + packages.count.to_s + " #{"package".pluralize(packages.count)}#{(@user.packages.count > resource_limit) ? " out of #{@user.packages.count}" : ''}." %>
+                <%= (packages.count > 0 ? "Showing" : "Found") + " " + packages.count.to_s + " #{"My DReSA Link".pluralize(packages.count)}#{(@user.packages.count > resource_limit) ? " out of #{@user.packages.count}" : ''}." %>
                 <%= link_to('View all results.', packages(user: @user.username)) if (@user.packages.count > resource_limit) %>
               </div>
               <% packages.each do |package| %>
