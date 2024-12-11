@@ -15,4 +15,7 @@ class AboutController < ApplicationController
   def developers
   end
 
+  def faqs
+  end
+
 end
