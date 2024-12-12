@@ -94,11 +94,16 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     authorize @user
-    @user.create_activity :destroy, owner: current_user
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_path, notice: 'User was successfully destroyed.' } # Devise is also doing redirection here
-      format.json { head :no_content }
+    if @user.sources.empty?
+      @user.create_activity :destroy, owner: current_user
+      @user.destroy
+      respond_to do |format|
+        format.html { redirect_to users_path, notice: 'User was successfully destroyed.' } # Devise is also doing redirection here
+        format.json { head :no_content }
+      end
+    else
+      flash[:notice] = "You have to assign your ingestion source with a new owner before being deleting yourself"
+      redirect_to @user
     end
   end
 
