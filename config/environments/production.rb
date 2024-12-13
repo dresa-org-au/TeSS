@@ -70,7 +70,7 @@ Rails.application.configure do
   config.active_job.queue_name_prefix = "dresa_#{Rails.env}"
   config.active_job.queue_name_delimiter = '.'
 
-  config.action_mailer.default_url_options = {host: 'staging.dresa.org.au'}
+  config.action_mailer.default_url_options = {host: 'dresa.org.au'}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
         address:              'smtpout.secureserver.net',
