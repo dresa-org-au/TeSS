@@ -156,7 +156,7 @@
             <%= menu_item "Workflows", workflows_path %>
           <% end %>
           <% if TeSS::Config.feature['packages'] == true %>
-            <%= menu_item "Packages", packages_path %>
+            <%= menu_item "My DReSA Links", packages_path %>
           <% end %>
           <% if TeSS::Config.feature['providers'] == true %>
             <%= menu_item "Providers", content_providers_path %>
@@ -168,6 +168,7 @@
             <%= menu_item "Nodes", nodes_path %>
           <% end %>
           <%= menu_item "About", about_path %>
+          <%= menu_item "Contact Us", contact_path %>
         <% end %>
       </div>
     </div>
